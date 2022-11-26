@@ -19,6 +19,7 @@ async function run() {
     try {
         const categoryOptionCollction = client.db('primeMotors').collection('category')
         const bikesOptionCollction = client.db('primeMotors').collection('bikes')
+        const bookingsCollction = client.db('primeMotors').collection('bookings')
 
 
         app.get('/category', async (req, res) => {
@@ -31,6 +32,12 @@ async function run() {
             const categoryId = req.params.categoryId;
             const query = { categoryId: parseInt(categoryId) }
             const result = await bikesOptionCollction.find(query).toArray()
+            res.send(result);
+        })
+
+        app.post('/bookings', async (req, res) => {
+            const booking = req.body
+            const result = await bookingsCollction.insertOne(booking)
             res.send(result);
         })
     }
