@@ -135,8 +135,6 @@ async function run() {
             res.send(result);
         });
 
-
-
         app.post('/sellerProduct', verifyJWT, async (req, res) => {
             const product = req.body;
             const result = await sellerProductCollction.insertOne(product);
@@ -148,6 +146,13 @@ async function run() {
             const query = { email: email };
             const sellers = await sellerProductCollction.find(query).toArray();
             res.send(sellers);
+        });
+
+        app.delete('/sellerProduct/:id', verifyJWT, async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await sellerProductCollction.deleteOne(filter);
+            res.send(result);
         })
 
     }
