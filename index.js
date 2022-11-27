@@ -20,6 +20,7 @@ async function run() {
         const categoryOptionCollction = client.db('primeMotors').collection('category')
         const bikesOptionCollction = client.db('primeMotors').collection('bikes')
         const bookingsCollction = client.db('primeMotors').collection('bookings')
+        const usersCollction = client.db('primeMotors').collection('users')
 
 
         app.get('/category', async (req, res) => {
@@ -35,11 +36,19 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/bookings', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email }
+            const bookings = await bookingsCollction.find(query).toArray();
+            res.send(bookings)
+        })
+
         app.post('/bookings', async (req, res) => {
             const booking = req.body
             const result = await bookingsCollction.insertOne(booking)
             res.send(result);
-        })
+        });
+
     }
 
     finally {
